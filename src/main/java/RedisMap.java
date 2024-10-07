@@ -1,6 +1,7 @@
 import redis.clients.jedis.Jedis;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class RedisMap implements Map<String, String> {
 
@@ -64,16 +65,20 @@ public class RedisMap implements Map<String, String> {
 
     @Override
     public Set<String> keySet() {
-        return Set.of();
+        return jedis.keys("*");
     }
 
     @Override
     public Collection<String> values() {
-        return List.of();
+        return keySet().stream()
+                .map(k -> jedis.get(k))
+                .toList();
     }
 
     @Override
     public Set<Entry<String, String>> entrySet() {
-        return Set.of();
+        return keySet().stream()
+                .map(k -> new AbstractMap.SimpleEntry<>(k, jedis.get(k)) {})
+                .collect(Collectors.toSet());
     }
 }

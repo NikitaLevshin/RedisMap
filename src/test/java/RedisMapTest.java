@@ -59,4 +59,43 @@ public class RedisMapTest {
     public void redisMapShouldThrowNoSuchElementException() {
         assertThrows(NoSuchElementException.class, () -> redisMap.get("testKey"));
     }
+
+    @Test
+    public void redisMapShouldReturnCorrectKeySet() {
+        redisMap.put(key, value);
+        redisMap.put("test6", "test2");
+        redisMap.put("test3", "test4");
+        redisMap.put("test5", "test5");
+
+        var keySet = redisMap.keySet();
+
+        assertEquals(4, keySet.size());
+        assertTrue(keySet.contains(key));
+    }
+
+    @Test
+    public void redisMapShouldReturnCorrectValueSet() {
+        redisMap.put(key, value);
+        redisMap.put("test6", "test2");
+        redisMap.put("test3", "test4");
+        redisMap.put("test5", "test5");
+
+        var values = redisMap.values();
+
+        assertEquals(4, values.size());
+        assertTrue(values.contains(value));
+    }
+
+    @Test
+    public void redisMapShouldReturnCorrectEntrySet() {
+        redisMap.put(key, value);
+        redisMap.put("test6", "test2");
+        redisMap.put("test3", "test4");
+        redisMap.put("test5", "test5");
+
+        var entrySet = redisMap.entrySet();
+
+        assertEquals(4, entrySet.size());
+
+    }
 }
